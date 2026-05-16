@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         // Disable swipe if you want
-        // viewPager.setUserInputEnabled(false);
+        viewPager.setUserInputEnabled(false);
 
         // Bottom nav -> ViewPager
         bottomNavigationView.setOnItemSelectedListener(item -> {

@@ -10,11 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button_new_task"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All Tasks" />
+            android:text="New Task"
+            android:layout_margin="16dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_all_tasks"

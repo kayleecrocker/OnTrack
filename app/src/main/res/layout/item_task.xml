@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="16dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="16dp" >
+
+        <!-- Drag Handle -->
+        <ImageView
+            android:id="@+id/imageview_drag_handle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            app:tint="#808080"
+            android:src="@drawable/ic_drag_handle"
+            android:contentDescription="Drag"/>
+
+        <!-- Priority Circle -->
+        <View
+            android:id="@+id/viewPriority"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_priority_circle"/>
+
+        <!-- Title + Progress -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task title"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <ProgressBar
+                android:id="@+id/progressbar_task_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="6dp"
+                android:progressTint="#4CAF50"
+                android:progressDrawable="@drawable/task_progress_bar"
+                android:max="100"
+                android:progress="50"/>
+            <!-- android:progressDrawable="@drawable/task_progress_bar" -->
+
+        </LinearLayout>
+
+        <!-- Complete Button -->
+        <ImageButton
+            android:id="@+id/buttonComplete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_tasks"
+            app:tint="@android:color/black"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

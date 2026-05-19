@@ -31,4 +31,6 @@ public class Task {
 
     // last time progress was updated (optional but useful later)
     public Long lastUpdated;
+
+    public int position;
 }

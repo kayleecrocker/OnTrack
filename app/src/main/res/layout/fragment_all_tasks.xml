@@ -5,10 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AllTasksFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="All Tasks" />
+        android:orientation="vertical" >
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="All Tasks" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_all_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </FrameLayout>

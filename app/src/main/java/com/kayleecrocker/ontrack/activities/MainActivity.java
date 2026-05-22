@@ -1,6 +1,9 @@
 package com.kayleecrocker.ontrack.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,23 +12,26 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarMenu;
 import com.kayleecrocker.ontrack.R;
 import com.kayleecrocker.ontrack.adapters.MainPagerAdapter;
+import com.kayleecrocker.ontrack.views.CustomCurvedBottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
-    private BottomNavigationView bottomNavigationView;
+    private CustomCurvedBottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bottomNavigationView = findViewById(R.id.custom_curved_bottom_navigation_view);
         viewPager = findViewById(R.id.viewPager);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         MainPagerAdapter adapter = new MainPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
@@ -37,32 +43,44 @@ public class MainActivity extends AppCompatActivity {
 
             if (item.getItemId() == R.id.nav_sleep) {
                 viewPager.setCurrentItem(0);
-            } else if (item.getItemId() == R.id.nav_tasks) {
+            }
+            else if (item.getItemId() == R.id.nav_tasks) {
                 viewPager.setCurrentItem(1);
-            } else if (item.getItemId() == R.id.nav_hobby) {
+            }
+            else if (item.getItemId() == R.id.nav_hobbies) {
                 viewPager.setCurrentItem(2);
             }
 
             return true;
         });
 
+
         // ViewPager -> Bottom nav
         viewPager.registerOnPageChangeCallback(
                 new ViewPager2.OnPageChangeCallback() {
+
                     @Override
                     public void onPageSelected(int position) {
+                        super.onPageSelected(position);
 
                         switch (position) {
+
                             case 0:
-                                bottomNavigationView.setSelectedItemId(R.id.nav_sleep);
+                                bottomNavigationView.getMenu()
+                                        .findItem(R.id.nav_sleep)
+                                        .setChecked(true);
                                 break;
 
                             case 1:
-                                bottomNavigationView.setSelectedItemId(R.id.nav_tasks);
+                                bottomNavigationView.getMenu()
+                                        .findItem(R.id.nav_tasks)
+                                        .setChecked(true);
                                 break;
 
                             case 2:
-                                bottomNavigationView.setSelectedItemId(R.id.nav_hobby);
+                                bottomNavigationView.getMenu()
+                                        .findItem(R.id.nav_hobbies)
+                                        .setChecked(true);
                                 break;
                         }
                     }

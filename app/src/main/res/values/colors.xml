@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!--THEME COLORS-->
+    <color name="primary">#2B9E81</color>
+    <color name="secondary">#2B5F5D</color>
+    <color name="tertiary">#E3DDDA</color>
+    <color name="accent">#34E3B7</color>
+    <color name="background">#FFF6F5</color>
+    <color name="surface">#FFFAFA</color>
+    <color name="text_primary">#222222</color>
+
+    <!--PRIORITY INDICATORS-->
 </resources>

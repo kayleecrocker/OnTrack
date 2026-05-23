@@ -5,9 +5,11 @@
     <color name="secondary">#2B5F5D</color>
     <color name="tertiary">#E3DDDA</color>
     <color name="accent">#34E3B7</color>
-    <color name="background">#FFF6F5</color>
+    <color name="background">#f2f2f2</color>
+    <color name="tan">#FFF6F5</color>
     <color name="surface">#FFFAFA</color>
     <color name="text_primary">#222222</color>
+    <color name="white">#FFFFFF</color>
 
     <!--PRIORITY INDICATORS-->
 </resources>

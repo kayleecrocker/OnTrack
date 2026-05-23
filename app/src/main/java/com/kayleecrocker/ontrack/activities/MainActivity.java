@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarMenu;
 import com.kayleecrocker.ontrack.R;
 import com.kayleecrocker.ontrack.adapters.MainPagerAdapter;
@@ -24,18 +25,21 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
     private CustomCurvedBottomNavigationView bottomNavigationView;
+    private FloatingActionButton navFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.custom_curved_bottom_navigation_view);
         viewPager = findViewById(R.id.viewPager);
+        bottomNavigationView = findViewById(R.id.custom_curved_bottom_navigation_view);
+        navFab = findViewById(R.id.fab_nav_tasks);
         MainPagerAdapter adapter = new MainPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
-        // Disable swipe if you want
+        // Setup stuff
+        viewPager.setCurrentItem(1);
         viewPager.setUserInputEnabled(false);
 
         // Bottom nav -> ViewPager
@@ -87,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        viewPager.setCurrentItem(1);
+        // Fab -> ViewPager
+        navFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(1);
+            }
+        });
     }
 }

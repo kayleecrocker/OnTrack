@@ -13,6 +13,10 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * https://proandroiddev.com/how-i-drew-custom-shapes-in-bottom-bar-c4539d86afd7
+ * -> Nour El Islam SAIDI
+ */
 public class CustomCurvedBottomNavigationView extends BottomNavigationView {
 
     Path mPath;
@@ -21,7 +25,7 @@ public class CustomCurvedBottomNavigationView extends BottomNavigationView {
     private int mNavigationBarWidth;
     private int mNavigationBarHeight;
 
-    private final int CURVE_CIRCLE_RADIUS = 128;
+    private final int CURVE_CIRCLE_RADIUS = 120;
 
     private Point mFirstCurveStartPoint = new Point();
     private Point mFirstCurveEndPoint = new Point();

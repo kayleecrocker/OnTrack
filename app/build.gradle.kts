@@ -46,4 +46,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.navigation:navigation-fragment:2.9.3")
+    implementation("androidx.navigation:navigation-ui:2.9.3")
 }

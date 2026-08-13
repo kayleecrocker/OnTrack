@@ -1,6 +1,7 @@
 package com.kayleecrocker.ontrack.activities;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -23,25 +28,65 @@ import com.kayleecrocker.ontrack.views.CustomCurvedBottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager2 viewPager;
     private CustomCurvedBottomNavigationView bottomNavigationView;
     private FloatingActionButton navFab;
+    private NavController navController;
 
+    // =============================================================================================
+    // Activity lifecycle methods
+    // =============================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = findViewById(R.id.viewPager);
         bottomNavigationView = findViewById(R.id.custom_curved_bottom_navigation_view);
         navFab = findViewById(R.id.fab_nav_tasks);
-        MainPagerAdapter adapter = new MainPagerAdapter(this);
-        viewPager.setAdapter(adapter);
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host);
+
+        NavController navController =
+                navHostFragment.getNavController();
+
+        /*
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            navController.navigate(item.getItemId());
+            return true;
+        });
+         */
+
+        NavigationUI.setupWithNavController(
+                bottomNavigationView,
+                navController
+        );
+
+        navFab.setOnClickListener(v -> {
+
+            MenuItem tasksItem =
+                    bottomNavigationView.getMenu().findItem(R.id.nav_tasks);
+
+            NavigationUI.onNavDestinationSelected(
+                    tasksItem,
+                    navController
+            );
+        });
+
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+
+            if (destination.getId() == R.id.taskDetailsFragment) {
+                bottomNavigationView.setVisibility(View.GONE);
+            } else {
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         // Setup stuff
-        viewPager.setCurrentItem(1);
-        viewPager.setUserInputEnabled(false);
 
+/*
         // Bottom nav -> ViewPager
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
@@ -98,5 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(1);
             }
         });
+
+ */
     }
 }

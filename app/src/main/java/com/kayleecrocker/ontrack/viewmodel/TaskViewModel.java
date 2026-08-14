@@ -23,6 +23,8 @@ public class TaskViewModel extends AndroidViewModel {
         allTasks = repository.getAllTasks();
     }
 
+    public LiveData<Task> getTask(int taskId) { return repository.getTask(taskId); }
+
     public LiveData<List<Task>> getAllTasks() {
         return allTasks;
     }
@@ -38,4 +40,5 @@ public class TaskViewModel extends AndroidViewModel {
     public void delete(Task task) {
         repository.delete(task);
     }
+
 }

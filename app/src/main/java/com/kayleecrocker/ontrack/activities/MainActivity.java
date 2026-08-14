@@ -23,7 +23,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarMenu;
 import com.kayleecrocker.ontrack.R;
-import com.kayleecrocker.ontrack.adapters.MainPagerAdapter;
 import com.kayleecrocker.ontrack.views.CustomCurvedBottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

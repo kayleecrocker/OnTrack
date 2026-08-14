@@ -2,16 +2,19 @@ package com.kayleecrocker.ontrack.adapters;
 
 import static android.view.View.GONE;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.ListAdapter;
@@ -23,10 +26,6 @@ import com.kayleecrocker.ontrack.entities.Task;
 public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
 
     private ItemTouchHelper itemTouchHelper;
-
-    public TaskAdapter() {
-        super(DIFF_CALLBACK);
-    }
 
     private static final DiffUtil.ItemCallback<Task> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Task>() {
@@ -44,6 +43,18 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
                             && oldItem.priority == newItem.priority;
                 }
             };
+
+    public interface OnTaskClickListener {
+        void onTaskClick(Task task);
+    }
+
+    private final OnTaskClickListener listener;
+
+    // constructor that guarantees listener is initialized
+    public TaskAdapter(OnTaskClickListener listener) {
+        super(DIFF_CALLBACK);
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -76,6 +87,11 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskViewHolder> {
         holder.dragHandle.setOnLongClickListener(v -> {
             itemTouchHelper.startDrag(holder);
             return true;
+        });
+
+        // click to open task details
+        holder.itemView.setOnClickListener(v -> {
+            listener.onTaskClick(task);
         });
 
         //holder.textProgress.setText(task.progress + "%");

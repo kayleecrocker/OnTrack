@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +62,14 @@ public class AllTasksFragment extends Fragment {
                 new LinearLayoutManager(getContext())
         );
 
-        adapter = new TaskAdapter();
+        adapter = new TaskAdapter(task -> {
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("taskId", task.id);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_tasks_to_details, bundle);
+        });
 
         recyclerView.setAdapter(adapter);
 

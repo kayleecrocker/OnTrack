@@ -26,6 +26,10 @@ public class TaskRepository {
         return allTasks;
     }
 
+    public LiveData<Task> getTask(int taskId) {
+        return taskDao.getTask(taskId);
+    }
+
     public void insert(Task task) {
         Executors.newSingleThreadExecutor().execute(() -> taskDao.insert(task));
     }

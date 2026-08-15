@@ -9,6 +9,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -23,22 +27,23 @@ import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.kayleecrocker.ontrack.R;
-import com.kayleecrocker.ontrack.adapters.TasksPagerAdapter;
+import com.kayleecrocker.ontrack.adapters.TaskAdapter;
 import com.kayleecrocker.ontrack.entities.Task;
 import com.kayleecrocker.ontrack.viewmodel.TaskViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class TasksFragment extends Fragment {
 
-    private TabLayout tabLayout;
-    private ViewPager2 viewPager;
-    private Button createTaskButton;
-
     private TaskViewModel taskViewModel;
+    private TaskAdapter adapter;
+    private Button createTaskButton;
+    private RecyclerView recyclerView;
 
     public static TasksFragment newInstance() {
         return new TasksFragment();
@@ -50,39 +55,48 @@ public class TasksFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tasks, container, false);
-
-        tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
-
-        TasksPagerAdapter adapter = new TasksPagerAdapter(this);
-        viewPager.setAdapter(adapter);
-
-        // ViewModel
-        taskViewModel = new ViewModelProvider(requireActivity())
-                .get(TaskViewModel.class);
-
-        // set up tablayout
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-                    if (position == 0) tab.setText("Tasks");
-                    else tab.setText("Projects");
-                }
-        ).attach();
-
-        return view;
+        return inflater.inflate(R.layout.fragment_tasks, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Task task = new Task();
-        task.title = "make lunch";
-        //taskViewModel.insert(task);
-
         // Views
         createTaskButton = view.findViewById(R.id.button_new_task);
+        recyclerView = view.findViewById(R.id.recyclerview_all_tasks);
+
+        // ViewModel
+        taskViewModel = new ViewModelProvider(requireActivity())
+                .get(TaskViewModel.class);
+
+        Task lunch = new Task();
+        lunch.title = "make lunch";
+        //taskViewModel.insert(task);
+
+        // RecyclerView setup
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(getContext())
+        );
+
+        adapter = new TaskAdapter(task -> {
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("taskId", task.id);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_tasks_to_details, bundle);
+        });
+
+        recyclerView.setAdapter(adapter);
+
+        // Observe tasks
+        taskViewModel.getAllTasks().observe(
+                getViewLifecycleOwner(),
+                tasks -> {
+                    adapter.submitList(tasks);
+                }
+        );
 
         // onClick listeners
         createTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +105,9 @@ public class TasksFragment extends Fragment {
                 showCreateTaskDialog();
             }
         });
+
+        // enable drag + drop
+        setItemTouchHelper();
     }
 
     // =============================================================================================
@@ -208,5 +225,76 @@ public class TasksFragment extends Fragment {
 
             timePickerDialog.show();
         });
+    }
+
+    // =============================================================================================
+    // ItemTouchHelper for drag and drop
+    // =============================================================================================
+    private void setItemTouchHelper() {
+
+        ItemTouchHelper.Callback callback =
+                new ItemTouchHelper.SimpleCallback(
+                        ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                        0
+                ) {
+                    @Override
+                    public boolean onMove(
+                            RecyclerView recyclerView,
+                            RecyclerView.ViewHolder viewHolder,
+                            RecyclerView.ViewHolder target
+                    ) {
+                        int from = viewHolder.getBindingAdapterPosition();
+                        int to = target.getBindingAdapterPosition();
+
+                        List<Task> currentList = new ArrayList<>(adapter.getCurrentList());
+                        Collections.swap(currentList, from, to);
+                        adapter.submitList(currentList);
+                        return true;
+                    }
+                    @Override
+                    public boolean isLongPressDragEnabled() {
+                        return false;
+                    }
+                    @Override
+                    public boolean isItemViewSwipeEnabled() {
+                        return false;
+                    }
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    }
+                    // fancy extra animation stuff
+                    @Override
+                    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+                        super.onSelectedChanged(viewHolder, actionState);
+
+                        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG && viewHolder != null) {
+
+                            View itemView = viewHolder.itemView;
+
+                            itemView.animate()
+                                    .scaleX(1.05f)
+                                    .scaleY(1.05f)
+                                    .translationZ(20f)
+                                    .setDuration(150)
+                                    .start();
+                        }
+                    }
+                    @Override
+                    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                        super.clearView(recyclerView, viewHolder);
+
+                        View itemView = viewHolder.itemView;
+
+                        itemView.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .translationZ(0f)
+                                .setDuration(150)
+                                .start();
+                    }
+                };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        adapter.setItemTouchHelper(itemTouchHelper);
     }
 }

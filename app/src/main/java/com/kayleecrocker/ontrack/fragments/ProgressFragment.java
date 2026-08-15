@@ -13,26 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kayleecrocker.ontrack.R;
-import com.kayleecrocker.ontrack.viewmodel.HobbyViewModel;
+import com.kayleecrocker.ontrack.viewmodel.SleepViewModel;
 
-public class HobbyFragment extends Fragment {
+public class ProgressFragment extends Fragment {
 
-    private HobbyViewModel mViewModel;
+    private SleepViewModel mViewModel;
 
-    public static HobbyFragment newInstance() {
-        return new HobbyFragment();
+    public static ProgressFragment newInstance() {
+        return new ProgressFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_hobby, container, false);
+        return inflater.inflate(R.layout.fragment_progress, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(HobbyViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(SleepViewModel.class);
         // TODO: Use the ViewModel
     }
 

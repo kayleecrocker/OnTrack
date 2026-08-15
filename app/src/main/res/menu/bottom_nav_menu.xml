@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_sleep"
-        android:title="Sleep"
-        android:icon="@drawable/ic_sleep"/>
+        android:id="@+id/nav_progress"
+        android:title="Progress"
+        android:icon="@drawable/ic_progress"/>
 
     <item
         android:id="@+id/nav_tasks"
         android:title="Tasks" />
 
     <item
-        android:id="@+id/nav_hobby"
-        android:title="Hobbies"
-        android:icon="@drawable/ic_hobby"/>
+        android:id="@+id/nav_projects"
+        android:title="Projects"
+        android:icon="@drawable/ic_projects"/>
 
 </menu>

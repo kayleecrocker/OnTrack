@@ -6,25 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.kayleecrocker.ontrack.R;
 import com.kayleecrocker.ontrack.viewmodel.TaskViewModel;
 
-public class TaskDetailsFragment extends Fragment {
+public class EditTaskFragment extends Fragment {
 
     private static final String ARG_TASK_ID = "taskId";
     private int taskId;
     private TaskViewModel taskViewModel;
-    private TextView taskTitle;
-    private ImageButton editButton;
+    private EditText taskTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +34,7 @@ public class TaskDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_details, container, false);
+        return inflater.inflate(R.layout.fragment_edit_task, container, false);
     }
 
     @Override
@@ -46,8 +42,7 @@ public class TaskDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Views
-        taskTitle = view.findViewById(R.id.textview_task_title);
-        editButton = view.findViewById(R.id.btn_edit);
+        taskTitle = view.findViewById(R.id.edittext_task_title);
 
         // Connect to viewmodel
         taskViewModel = new ViewModelProvider(requireActivity())
@@ -62,14 +57,5 @@ public class TaskDetailsFragment extends Fragment {
                     }
                 }
         );
-
-        // Set on click listeners
-        editButton.setOnClickListener(v -> {
-
-            Bundle bundle = new Bundle();
-            bundle.putInt("taskId", taskId);
-
-            NavHostFragment.findNavController(this).navigate(R.id.action_details_to_edit, bundle);
-        });
     }
 }

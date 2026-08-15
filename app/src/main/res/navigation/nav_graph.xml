@@ -38,5 +38,19 @@
             android:name="taskId"
             app:argType="integer" />
 
+        <action
+            android:id="@+id/action_details_to_edit"
+            app:destination="@id/editTaskFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="com.kayleecrocker.ontrack.fragments.EditTaskFragment"
+        android:label="Task Details"
+        tools:layout="@layout/fragment_edit_task">
+
+        <argument
+            android:name="taskId"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -29,9 +29,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.kayleecrocker.ontrack.R;
 import com.kayleecrocker.ontrack.adapters.TaskAdapter;
+import com.kayleecrocker.ontrack.algorithms.TaskPriorityCalculator;
 import com.kayleecrocker.ontrack.entities.Task;
 import com.kayleecrocker.ontrack.viewmodel.TaskViewModel;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -94,6 +100,12 @@ public class TasksFragment extends Fragment {
         taskViewModel.getAllTasks().observe(
                 getViewLifecycleOwner(),
                 tasks -> {
+                    for (Task task : tasks) {
+                        task.priority = TaskPriorityCalculator.calculatePriority(task);
+                        Log.d("mytag", "prioity " + task.title + ": " + task.priority);
+                        Log.d("mytag", "importance " + task.title + ": " + task.importance);
+                    }
+                    Collections.sort(tasks);
                     adapter.submitList(tasks);
                 }
         );
@@ -159,14 +171,50 @@ public class TasksFragment extends Fragment {
                 .setPositiveButton("Add", (dialog, which) -> {
                     String title = editTitle.getText().toString().trim();
 
+                    Task task = new Task();
+
                     if (title.isEmpty()) {
                         return;
                     }
 
-                    Task task = new Task();
+                    // get date and time deadline------------------------
+                    DateTimeFormatter dateFormatter =
+                            DateTimeFormatter.ofPattern("d/M/yyyy");
+
+                    DateTimeFormatter timeFormatter =
+                            DateTimeFormatter.ofPattern("HH:mm");
+
+                    if (!editDeadlineDate.getText().toString().isEmpty() && !editDeadlineTime.getText().toString().isEmpty()) {
+
+                        LocalDate date = LocalDate.parse(
+                                editDeadlineDate.getText().toString(),
+                                dateFormatter
+                        );
+
+                        LocalTime time = LocalTime.parse(
+                                editDeadlineTime.getText().toString(),
+                                timeFormatter
+                        );
+
+                        LocalDateTime deadline = LocalDateTime.of(date, time);
+
+                        long deadlineMillis = deadline
+                                .atZone(ZoneId.systemDefault())
+                                .toInstant()
+                                .toEpochMilli();
+
+                        task.deadline = deadlineMillis;
+                    } else {
+                        task.deadline = null;
+                    }
+                    //----------------------------------------------------
+
+
                     task.title = title;
                     task.notes = editNotes.getText().toString();
-                    task.priority = seekImportance.getProgress();
+                    task.importance = seekImportance.getProgress();
+                    task.creationDate = System.currentTimeMillis();
+                    task.lastUpdated = System.currentTimeMillis();
                     taskViewModel.insert(task);
                 })
                 .show();

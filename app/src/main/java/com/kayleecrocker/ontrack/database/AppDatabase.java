@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.kayleecrocker.ontrack.dao.TaskDao;
 import com.kayleecrocker.ontrack.entities.Task;
 
-@Database(entities = {Task.class}, version = 1)
+@Database(entities = {Task.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TaskDao taskDao();

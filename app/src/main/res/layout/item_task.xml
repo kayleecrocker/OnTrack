@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
                 android:layout_marginTop="6dp"
-                android:progressTint="#4CAF50"
+                android:progressTint="@color/green"
                 android:progressDrawable="@drawable/task_progress_bar"
                 android:max="100"
                 android:progress="50"/>

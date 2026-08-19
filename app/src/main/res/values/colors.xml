@@ -10,6 +10,8 @@
     <color name="surface">#FFFAFA</color>
     <color name="text_primary">#222222</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#4CAF50</color>
 
     <!--PRIORITY INDICATORS-->
 </resources>

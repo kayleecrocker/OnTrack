@@ -46,6 +46,7 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_delete"
+            app:tint="@color/red"
             android:contentDescription="Delete" />
 
     </LinearLayout>
@@ -71,6 +72,7 @@
         android:layout_marginTop="16dp" />
 
     <!-- Complete button -->
+
     <com.google.android.material.slider.Slider
         android:id="@+id/progress_slider"
         android:layout_width="match_parent"

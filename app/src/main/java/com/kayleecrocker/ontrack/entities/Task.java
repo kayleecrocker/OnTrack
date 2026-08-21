@@ -26,11 +26,11 @@ public class Task implements Comparable<Task> {
     // timestamp (nullable = no due date)
     public Long deadline;
 
-    public int hoursToDeadline;
-
     public int duration;
     // 0 = minutes, 1 = hours
     public int durationType;
+
+    public boolean isRepeated;
 
     // repeat type: 0 = none, 1 = daily, 2 = weekly, etc.
     public int repeatType;
@@ -42,8 +42,6 @@ public class Task implements Comparable<Task> {
 
     // last time progress was updated (optional but useful later)
     public Long lastUpdated;
-
-    public int hoursSinceLastUpdated;
     public long creationDate;
 
     public int position;

@@ -16,14 +16,14 @@ public class TaskPriorityCalculator {
 
 
         int timeLeft = task.duration * (1 - task.progress / 100);
-        task.hoursSinceLastUpdated = Math.round((task.lastUpdated - System.currentTimeMillis()) / (1000 * 60 * 60));
+        //task.hoursSinceLastUpdated = Math.round((task.lastUpdated - System.currentTimeMillis()) / (1000 * 60 * 60));
 
         // main calculation
         if (task.deadline != null) {
-            task.hoursToDeadline = Math.round((task.deadline - System.currentTimeMillis()) / (1000 * 60 * 60));
-            if (task.hoursToDeadline < 48) {
+            int hoursToDeadline = Math.round((task.deadline - System.currentTimeMillis()) / (1000 * 60 * 60));
+            if (hoursToDeadline < 48) {
                 priority += 15;
-                if (task.hoursToDeadline < 24) {
+                if (hoursToDeadline < 24) {
                     priority += 20;
                 }
             }

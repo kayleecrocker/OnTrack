@@ -31,6 +31,7 @@ import com.kayleecrocker.ontrack.R;
 import com.kayleecrocker.ontrack.adapters.TaskAdapter;
 import com.kayleecrocker.ontrack.algorithms.TaskPriorityCalculator;
 import com.kayleecrocker.ontrack.entities.Task;
+import com.kayleecrocker.ontrack.utils.DateTimeUtils;
 import com.kayleecrocker.ontrack.viewmodel.TaskViewModel;
 
 import java.time.LocalDate;
@@ -152,14 +153,14 @@ public class TasksFragment extends Fragment {
         editDeadlineDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setupDatePicker(editDeadlineDate);
+                DateTimeUtils.setupDatePicker(requireContext(), editDeadlineDate);
             }
         });
 
         editDeadlineTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setupTimePicker(editDeadlineTime);
+                DateTimeUtils.setupTimePicker(requireContext(), editDeadlineTime);
             }
         });
 
@@ -221,62 +222,7 @@ public class TasksFragment extends Fragment {
     }
 
     // =============================================================================================
-    // Date and time pickers
-    // =============================================================================================
-    private void setupDatePicker(EditText dateText) {
-
-        dateText.setOnClickListener(v -> {
-
-            Calendar calendar = Calendar.getInstance();
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    requireContext(),
-                    (view, year, month, dayOfMonth) -> {
-
-                        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
-
-                        dateText.setText(date);
-
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            );
-
-            datePickerDialog.show();
-        });
-    }
-
-    private void setupTimePicker(EditText timeText) {
-        timeText.setOnClickListener(v -> {
-
-            Calendar calendar = Calendar.getInstance();
-
-            TimePickerDialog timePickerDialog = new TimePickerDialog(
-                    requireContext(),
-                    (view, hourOfDay, minute) -> {
-
-                        String time = String.format(
-                                Locale.getDefault(),
-                                "%02d:%02d",
-                                hourOfDay,
-                                minute
-                        );
-
-                        timeText.setText(time);
-
-                    },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    true
-            );
-
-            timePickerDialog.show();
-        });
-    }
-
-    // =============================================================================================
-    // ItemTouchHelper for drag and drop
+    // ItemTouchHelper for drag and drop (make utils?)
     // =============================================================================================
     private void setItemTouchHelper() {
 

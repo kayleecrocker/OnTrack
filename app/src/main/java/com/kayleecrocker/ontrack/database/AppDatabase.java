@@ -24,7 +24,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "ontrack_db"
-                    ).build();
+                    ).fallbackToDestructiveMigration().build();
                 }
             }
         }

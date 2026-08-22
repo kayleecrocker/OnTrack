@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -28,9 +29,11 @@ public class EditTaskFragment extends Fragment {
     private int taskId;
     private Task task;
     private TaskViewModel taskViewModel;
-    private EditText taskTitle;
     private ImageButton deleteButton;
     private ImageButton backButton;
+    private EditText taskTitle;
+    private Button cancelButton;
+    private Button saveButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,12 @@ public class EditTaskFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Views
-        taskTitle = view.findViewById(R.id.edittext_task_title);
         deleteButton = view.findViewById(R.id.btn_delete);
         backButton = view.findViewById(R.id.btn_back);
+        taskTitle = view.findViewById(R.id.edittext_task_title);
+        cancelButton = view.findViewById(R.id.btn_cancel);
+        saveButton = view.findViewById(R.id.btn_save);
+
 
         // Connect to viewmodel
         taskViewModel = new ViewModelProvider(requireActivity())
@@ -97,5 +103,20 @@ public class EditTaskFragment extends Fragment {
         backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigateUp()
         );
+
+        cancelButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(this).navigateUp()
+        );
+
+        saveButton.setOnClickListener(v -> {
+
+            String title = taskTitle.getText().toString().trim();
+
+            task.title = title;
+
+            taskViewModel.update(task);
+
+            NavHostFragment.findNavController(this).navigateUp();
+        });
     }
 }

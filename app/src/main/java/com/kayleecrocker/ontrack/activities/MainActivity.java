@@ -10,7 +10,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -49,13 +51,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController =
                 navHostFragment.getNavController();
 
-        /*
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            navController.navigate(item.getItemId());
-            return true;
-        });
-         */
-
         NavigationUI.setupWithNavController(
                 bottomNavigationView,
                 navController
@@ -83,66 +78,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Setup stuff
+        // Hide android system bottom nav bar
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
-/*
-        // Bottom nav -> ViewPager
-        bottomNavigationView.setOnItemSelectedListener(item -> {
+        WindowInsetsControllerCompat controller =
+                WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
 
-            if (item.getItemId() == R.id.nav_sleep) {
-                viewPager.setCurrentItem(0);
-            }
-            else if (item.getItemId() == R.id.nav_tasks) {
-                viewPager.setCurrentItem(1);
-            }
-            else if (item.getItemId() == R.id.nav_hobbies) {
-                viewPager.setCurrentItem(2);
-            }
-
-            return true;
-        });
-
-
-        // ViewPager -> Bottom nav
-        viewPager.registerOnPageChangeCallback(
-                new ViewPager2.OnPageChangeCallback() {
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        super.onPageSelected(position);
-
-                        switch (position) {
-
-                            case 0:
-                                bottomNavigationView.getMenu()
-                                        .findItem(R.id.nav_sleep)
-                                        .setChecked(true);
-                                break;
-
-                            case 1:
-                                bottomNavigationView.getMenu()
-                                        .findItem(R.id.nav_tasks)
-                                        .setChecked(true);
-                                break;
-
-                            case 2:
-                                bottomNavigationView.getMenu()
-                                        .findItem(R.id.nav_hobbies)
-                                        .setChecked(true);
-                                break;
-                        }
-                    }
-                }
+        controller.hide(WindowInsetsCompat.Type.navigationBars());
+        controller.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         );
-
-        // Fab -> ViewPager
-        navFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(1);
-            }
-        });
-
- */
     }
 }
